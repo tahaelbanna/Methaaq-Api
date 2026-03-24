@@ -1,0 +1,598 @@
+{
+	"info": {
+		"name": "Methaaq Freelance API (Complete)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8000/Api/v1",
+			"type": "string"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "1. Auth",
+			"item": [
+				{
+					"name": "1. Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Taha Elbanna\",\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\",\n    \"confirmPassword\": \"password123\",\n    \"phoneNumber\": \"+201000000000\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/auth/signup", "host": ["{{baseUrl}}"], "path": ["auth", "signup"] }
+					}
+				},
+				{
+					"name": "2. Verify Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if(jsonData.token) {",
+									"    pm.environment.set(\"accessToken\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\",\n    \"VerifyCode\": \"123456\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/auth/verifyEmail", "host": ["{{baseUrl}}"], "path": ["auth", "verifyEmail"] }
+					}
+				},
+				{
+					"name": "3. Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if(jsonData.token) {",
+									"    pm.environment.set(\"accessToken\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+					}
+				},
+				{
+					"name": "4. Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if(jsonData.token) {",
+									"    pm.environment.set(\"accessToken\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/auth/refresh-token", "host": ["{{baseUrl}}"], "path": ["auth", "refresh-token"] }
+					}
+				},
+				{
+					"name": "5. Forget Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/auth/forgetPassword", "host": ["{{baseUrl}}"], "path": ["auth", "forgetPassword"] }
+					}
+				},
+				{
+					"name": "6. Verify Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\",\n    \"resetCode\": \"123456\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/auth/verifyResetPassword", "host": ["{{baseUrl}}"], "path": ["auth", "verifyResetPassword"] }
+					}
+				},
+				{
+					"name": "7. Reset Password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if(jsonData.token) {",
+									"    pm.environment.set(\"accessToken\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"newpassword123\",\n    \"confirmPassword\": \"newpassword123\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/auth/resetPassword", "host": ["{{baseUrl}}"], "path": ["auth", "resetPassword"] }
+					}
+				},
+				{
+					"name": "8. Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"] }
+					}
+				},
+				{
+					"name": "Google Auth (Browser)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/auth/google", "host": ["{{baseUrl}}"], "path": ["auth", "google"] },
+						"description": "Note: Run this in a browser, not in Postman."
+					}
+				},
+				{
+					"name": "Google Callback",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/auth/google/callback", "host": ["{{baseUrl}}"], "path": ["auth", "google", "callback"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Projects",
+			"item": [
+				{
+					"name": "Create Project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Build an E-commerce App\",\n    \"description\": \"I need a full stack developer to build a MERN stack app...\",\n    \"budget\": 5000,\n    \"deadline\": \"2026-12-01\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/projects", "host": ["{{baseUrl}}"], "path": ["projects"] }
+					}
+				},
+				{
+					"name": "Get All Projects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/projects?page=1&limit=10", "host": ["{{baseUrl}}"], "path": ["projects"], "query": [ { "key": "page", "value": "1" }, { "key": "limit", "value": "10" } ] }
+					}
+				},
+				{
+					"name": "Get One Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/projects/1", "host": ["{{baseUrl}}"], "path": ["projects", "1"] }
+					}
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"budget\": 6000\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/projects/1", "host": ["{{baseUrl}}"], "path": ["projects", "1"] }
+					}
+				},
+				{
+					"name": "Delete Project",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/projects/1", "host": ["{{baseUrl}}"], "path": ["projects", "1"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Bids",
+			"item": [
+				{
+					"name": "Create Bid (Nested in Project)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 4500,\n    \"deliveryDays\": 30,\n    \"proposal\": \"I have 5 years of experience building similar apps. Here is my plan...\",\n    \"milestones\": [\n        { \"order\": 1, \"title\": \"UI/UX Design\", \"amount\": 1000 },\n        { \"order\": 2, \"title\": \"Backend Setup\", \"amount\": 3500 }\n    ]\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/projects/1/bids", "host": ["{{baseUrl}}"], "path": ["projects", "1", "bids"] }
+					}
+				},
+				{
+					"name": "Get Project Bids (Nested)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/projects/1/bids", "host": ["{{baseUrl}}"], "path": ["projects", "1", "bids"] }
+					}
+				},
+				{
+					"name": "Get My Bids",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/bids/my-bids", "host": ["{{baseUrl}}"], "path": ["bids", "my-bids"] }
+					}
+				},
+				{
+					"name": "Get One Bid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/bids/1", "host": ["{{baseUrl}}"], "path": ["bids", "1"] }
+					}
+				},
+				{
+					"name": "Update Bid",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"amount\": 4000\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/bids/1", "host": ["{{baseUrl}}"], "path": ["bids", "1"] }
+					}
+				},
+				{
+					"name": "Accept Bid",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/bids/1/accept", "host": ["{{baseUrl}}"], "path": ["bids", "1", "accept"] }
+					}
+				},
+				{
+					"name": "Reject Bid",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/bids/1/reject", "host": ["{{baseUrl}}"], "path": ["bids", "1", "reject"] }
+					}
+				},
+				{
+					"name": "Delete Bid",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/bids/1", "host": ["{{baseUrl}}"], "path": ["bids", "1"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Contracts",
+			"item": [
+				{
+					"name": "Get All Contracts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/contracts", "host": ["{{baseUrl}}"], "path": ["contracts"] }
+					}
+				},
+				{
+					"name": "Get One Contract",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/contracts/1", "host": ["{{baseUrl}}"], "path": ["contracts", "1"] }
+					}
+				},
+				{
+					"name": "Complete Contract",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/contracts/1/complete", "host": ["{{baseUrl}}"], "path": ["contracts", "1", "complete"] }
+					}
+				},
+				{
+					"name": "Create Review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"review\": \"Great freelancer, highly recommended!\",\n    \"rating\": 5\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/contracts/1/reviews", "host": ["{{baseUrl}}"], "path": ["contracts", "1", "reviews"] }
+					}
+				},
+				{
+					"name": "Get Contract Messages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/contracts/1/messages", "host": ["{{baseUrl}}"], "path": ["contracts", "1", "messages"] }
+					}
+				},
+				{
+					"name": "Create Message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"Hello, how is the progress going?\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/contracts/1/messages", "host": ["{{baseUrl}}"], "path": ["contracts", "1", "messages"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Milestones",
+			"item": [
+				{
+					"name": "Fund Milestone",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/milestones/1/fund", "host": ["{{baseUrl}}"], "path": ["milestones", "1", "fund"] }
+					}
+				},
+				{
+					"name": "Submit Milestone Work",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/milestones/1/submit", "host": ["{{baseUrl}}"], "path": ["milestones", "1", "submit"] }
+					}
+				},
+				{
+					"name": "Approve Milestone",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/milestones/1/approve", "host": ["{{baseUrl}}"], "path": ["milestones", "1", "approve"] }
+					}
+				},
+				{
+					"name": "Disapprove Milestone",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/milestones/1/disapprove", "host": ["{{baseUrl}}"], "path": ["milestones", "1", "disapprove"] }
+					}
+				},
+				{
+					"name": "Release Milestone Money",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/milestones/1/release", "host": ["{{baseUrl}}"], "path": ["milestones", "1", "release"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "6. Users",
+			"item": [
+				{
+					"name": "Get Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/users/me", "host": ["{{baseUrl}}"], "path": ["users", "me"] }
+					}
+				},
+				{
+					"name": "Update Me",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Taha Updated\",\n    \"phoneNumber\": \"+201111111111\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/users/me", "host": ["{{baseUrl}}"], "path": ["users", "me"] }
+					}
+				},
+				{
+					"name": "Upload Profile Image",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": { "raw": "{{baseUrl}}/users/me/profile-image", "host": ["{{baseUrl}}"], "path": ["users", "me", "profile-image"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "7. Profiles",
+			"item": [
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/profiles/1", "host": ["{{baseUrl}}"], "path": ["profiles", "1"] }
+					}
+				},
+				{
+					"name": "Upsert My Profile",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bio\": \"Expert Backend Developer...\",\n    \"skills\": [\"Node.js\", \"Express\", \"PostgreSQL\", \"MongoDB\"],\n    \"hourlyRate\": 25\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{baseUrl}}/profiles/me", "host": ["{{baseUrl}}"], "path": ["profiles", "me"] }
+					}
+				},
+				{
+					"name": "Add Portfolio Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "title", "value": "My Great Project", "type": "text" },
+								{ "key": "description", "value": "A description of the project...", "type": "text" },
+								{ "key": "projectUrl", "value": "https://github.com/my-project", "type": "text" },
+								{ "key": "image", "type": "file", "src": "" }
+							]
+						},
+						"url": { "raw": "{{baseUrl}}/profiles/me/portfolio", "host": ["{{baseUrl}}"], "path": ["profiles", "me", "portfolio"] }
+					}
+				},
+				{
+					"name": "Get Freelancer Reviews",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/profiles/1/reviews", "host": ["{{baseUrl}}"], "path": ["profiles", "1", "reviews"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "8. Notifications",
+			"item": [
+				{
+					"name": "Get My Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/notifications", "host": ["{{baseUrl}}"], "path": ["notifications"] }
+					}
+				},
+				{
+					"name": "Mark As Read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/notifications/1/read", "host": ["{{baseUrl}}"], "path": ["notifications", "1", "read"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "9. Admin",
+			"item": [
+				{
+					"name": "Ban User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/admin/users/1/ban", "host": ["{{baseUrl}}"], "path": ["admin", "users", "1", "ban"] }
+					}
+				},
+				{
+					"name": "Unban User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/admin/users/1/unban", "host": ["{{baseUrl}}"], "path": ["admin", "users", "1", "unban"] }
+					}
+				},
+				{
+					"name": "Get Stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/admin/stats", "host": ["{{baseUrl}}"], "path": ["admin", "stats"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "10. Socket.io (Info)",
+			"item": [
+				{
+					"name": "How to test Socket.io in Postman",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "ws://localhost:8000", "host": ["ws", "", "localhost"], "port": "8000" },
+						"description": "1. In Postman, click 'New' -> 'WebSocket Request' or 'Socket.io'.\n2. Set URL to `ws://localhost:8000` (or your port).\n3. In 'Headers' tab, add Key: `token` and Value: `{{accessToken}}`.\n4. Click Connect.\n5. To test joining a room, emit event `join_contract` with message `1` (contract ID).\n6. To mark read, emit event `mark_messages_read` with message `1`."
+					}
+				}
+			]
+		}
+	]
+}
